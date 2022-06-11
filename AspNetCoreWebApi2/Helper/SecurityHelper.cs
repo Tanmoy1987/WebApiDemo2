@@ -15,7 +15,9 @@ namespace AspNetCoreWebApi2
         public string Generate(string name) {
             var tokenClaims= new Claim[] {
                 //new Claim(ClaimTypes.Name, name), new Claim(ClaimTypes.Role, "Contractor")
-                new Claim(ClaimTypes.Name, name), new Claim(ClaimTypes.Role, "Administrator"), new Claim(ClaimTypes.DateOfBirth, new DateTime(1987, 7, 13).ToString())
+                new Claim(ClaimTypes.Name, name)
+              , new Claim(ClaimTypes.Role, "Administrator")
+              , new Claim(ClaimTypes.DateOfBirth, new DateTime(1987, 7, 13).ToString())
             };
 
             var token= new JwtSecurityToken(
