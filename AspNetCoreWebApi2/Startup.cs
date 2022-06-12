@@ -38,8 +38,8 @@ namespace AspNetCoreWebApi2
                 c.AddSecurityDefinition("JWT", new OpenApiSecurityScheme
                 {
                     Name="Authorization",
-                    Type= SecuritySchemeType.ApiKey,
-                    Scheme="bearer",
+                    Type= SecuritySchemeType.Http,
+                    Scheme="Bearer",
                     In= ParameterLocation.Header,
                     Description = "JWT header using the Bearer scheme."  
                 });
@@ -47,7 +47,7 @@ namespace AspNetCoreWebApi2
                 {  
                     {  new OpenApiSecurityScheme  {  Reference = new OpenApiReference  {  
                                     Type = ReferenceType.SecurityScheme,  
-                                    Id = "bearer"  
+                                    Id = "JWT"    // this Id should match with the Swagger Security definition name.
                             }  
                         },  new string[] {}  
                     }  
@@ -61,16 +61,16 @@ namespace AspNetCoreWebApi2
                 option.DefaultAuthenticateScheme= JwtBearerDefaults.AuthenticationScheme;
                 option.DefaultChallengeScheme= JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(tokn => {
-                tokn.RequireHttpsMetadata = false;
-                tokn.SaveToken= true;
-                tokn.TokenValidationParameters= new Microsoft.IdentityModel.Tokens.TokenValidationParameters
-                {
-                    ValidateAudience= false,
-                    ValidateIssuer= false,
-                    ValidateLifetime= true,
-                    ValidateIssuerSigningKey= true,
-                    IssuerSigningKey= new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetSection("JWT:Key").Value))
-                };
+                    tokn.RequireHttpsMetadata = false;
+                    tokn.SaveToken= true;
+                    tokn.TokenValidationParameters= new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                    {
+                        ValidateAudience= false,
+                        ValidateIssuer= false,
+                        ValidateLifetime= true,
+                        ValidateIssuerSigningKey= true,
+                        IssuerSigningKey= new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetSection("JWT:Key").Value))
+                    };
             });
 
             services.AddAuthorization(o => o.AddPolicy("Atleast18", policy => policy.Requirements.Add(new MinimumAgeRequirement())));
@@ -90,7 +90,7 @@ namespace AspNetCoreWebApi2
                 app.UseDeveloperExceptionPage();
             }
             app.UseSwagger();
-            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "AspNetCoreWebApi2 v1"));
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "AspNetCoreWebApi2 v1")); // swagger document name should contain the SwaggerEndPoint path.
             //app.UseHttpsRedirection();
 
             app.UseRouting();
