@@ -1,5 +1,6 @@
 using System;
 using System.Security.Claims;
+using System.Globalization;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.Extensions.Configuration;
@@ -17,7 +18,7 @@ namespace AspNetCoreWebApi2
                 //new Claim(ClaimTypes.Name, name), new Claim(ClaimTypes.Role, "Contractor")
                 new Claim(ClaimTypes.Name, name)
               , new Claim(ClaimTypes.Role, "Administrator")
-              , new Claim(ClaimTypes.DateOfBirth, new DateTime(1987, 7, 13).ToString())
+              , new Claim(ClaimTypes.DateOfBirth, new DateTime(1987, 07, 13).ToString(new CultureInfo("en-US")))
             };
 
             var token= new JwtSecurityToken(

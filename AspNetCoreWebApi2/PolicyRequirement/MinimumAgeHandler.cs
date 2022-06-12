@@ -10,8 +10,9 @@ namespace AspNetCoreWebApi2 {
           var claim= context.User.FindFirst(c => c.Type== ClaimTypes.DateOfBirth);
           if(claim== null)
             return Task.CompletedTask;
-          var provider= CultureInfo.InvariantCulture;
-          var dateofBirth= DateTime.ParseExact(claim.Value, "dd-MM-yyyy hh:mm:ss", provider);
+          // var provider= CultureInfo.InvariantCulture;
+          var provider= new CultureInfo("en-US");
+          var dateofBirth= DateTime.ParseExact(claim.Value?.Split(" ")[0]?.ToString(), "d", provider);
 
           if(DateTime.Now.Year- dateofBirth.Year > 18) {
               context.Succeed(requirement);
