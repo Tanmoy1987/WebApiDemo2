@@ -11,11 +11,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Mvc.Authorization;
 
 namespace AspNetCoreWebApi2 
 {
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
-    public class AuthorizeTokenAttribute : AuthorizeAttribute, IAuthorizationFilter
+    public class AuthorizeToken : AuthorizeAttribute, IAuthorizationFilter
     {
         public void OnAuthorization(AuthorizationFilterContext context)
         {
